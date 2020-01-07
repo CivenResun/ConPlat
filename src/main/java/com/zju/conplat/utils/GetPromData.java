@@ -8,24 +8,24 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-class BaseHttpClientTest {
-    BaseHttpClient baseHttpClient=new BaseHttpClient();
+/**
+ *获取Prometheus监控系统采集的数据
+ * 方法类型是void，其实可以传入想要的String类型PromQL查询语句做参数，返回Map或String。
+ * 或者改成一个静态方法？ 然后读取url建立HTTP连接也可以抽出来写成一个单独的方法？
+ * @author civeng
+ */
+public class GetPromData {
 
-    /**
-     * 获取Prometheus中的数据
-     * 用fastjson包的JSONObject
-     */
-    @Test
-    void getRes() {
+
+    public void getData(){
         String param1Value="sum(rate(container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^node01\"}[1m])) by (pod_name)";
         String param2Value="http_requests_total";
         //HTTP客户端连接工具
-        CloseableHttpClient httpClient=HttpClients.createDefault();
+        CloseableHttpClient httpClient= HttpClients.createDefault();
         //参数里有特殊字符，不能直接写成String（会报Illegal Character错误），用URIBuilder构造。
         URIBuilder uri=null;
         HttpGet get =null;
@@ -49,7 +49,7 @@ class BaseHttpClientTest {
             System.out.println("result-------:"+resStr);
             jsonObject=JSONObject.parseObject(resStr);
             System.out.println(jsonObject);
-            //根据Prometheus返回的JSON数据结构解析  metric
+            //根据Prometheus返回的JSON数据结构解析   metric是一组标签  value是采集的样本（在resultType是vector的情况下只有一组/还可能使matrix）
             JSONArray result=jsonObject.getJSONObject("data").getJSONArray("result");
             JSONObject metric=null;
             JSONArray value=null;
@@ -75,7 +75,5 @@ class BaseHttpClientTest {
                 }
             }
         }
-
-
     }
 }

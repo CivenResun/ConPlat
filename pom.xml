@@ -50,6 +50,13 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.10</version>
         </dependency>
+<!--        解析JSON数据-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.49</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

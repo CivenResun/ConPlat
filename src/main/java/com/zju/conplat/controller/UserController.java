@@ -27,9 +27,10 @@ public class UserController {
     @ResponseBody
     public Map getCpuUsage(){
         Map<String,Double> mp=new HashMap<>();
-        for(Pod pod: podList.getItems()){
-            String query="";
-        }
+//        for(Pod pod: podList.getItems()){
+//            String query="";
+//        }
+        return mp;
     }
 
     /**
