@@ -11,6 +11,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.URISyntaxException;
 
 class BaseHttpClientTest {
