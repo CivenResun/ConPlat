@@ -1,12 +1,12 @@
 # JSON数据格式
 直接以Prometheus的JSON为例：
-![PromJSON](https://img-blog.csdnimg.cn/20200108162834824.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NwYXJyb3cxMjEzOA==,size_16,color_FFFFFF,t_70)
-JSON的**主要数据结构**只有两种：Object和Array。
-操作JSON数据可以用JSON官方的库，Google的GSON，Ali的FastJSON，下面代码中以及我在项目中用的都是FastJSON。
-构建JSON在这里就不赘述了，put键值对或Map都可以。
-解析JSON：
+![PromJSON](./images/PromJSON.PNG)  
+JSON的**主要数据结构**只有两种：Object和Array。  
+操作JSON数据可以用JSON官方的库，Google的GSON，Ali的FastJSON，下面代码中以及我在项目中用的都是FastJSON。  
+构建JSON在这里就不赘述了，put键值对或Map都可以。  
+解析JSON：  
 比如上图中"status":"success" 就是一个**JSON对象**，是一个键值对，键必须是String类型，value可以是任何类型（即Object）。"data":{  xx  } 也是对象，key是"data", value是{}包起的内容，即一个JSON对象（对象Object和JSON对象JSONObject是不同的概念）。
-
+  
 ```java
 //把HttpEntity的数据先转换为字符串再转换为JSON对象
 String resStr= EntityUtils.toString(response.getEntity(),"UTF-8");
