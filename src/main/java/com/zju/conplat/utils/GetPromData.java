@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- *获取Prometheus监控系统采集的数据
+ * 获取Prometheus监控系统采集的数据   有改动请在author后添加相关信息
  * 方法类型是void，其实可以传入想要的String类型PromQL查询语句做参数，返回Map或String。
  * 或者改成一个静态方法？ 然后读取url建立HTTP连接也可以抽出来写成一个单独的方法？
- * @author civeng
+ * @author civeng  1.0版本
  */
 public class GetPromData {
 

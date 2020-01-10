@@ -10,6 +10,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.URISyntaxException;
@@ -17,8 +18,14 @@ import java.net.URISyntaxException;
 class BaseHttpClientTest {
     BaseHttpClient baseHttpClient=new BaseHttpClient();
 
+    void NodeInfo(){
+
+    }
+
+
+
     /**
-     * 获取Prometheus中的数据
+     * 获取Prometheus中的数据   与GetPromData中的1.0版方法完全相同，这里保留作为副本。
      * 用fastjson包的JSONObject
      */
     @Test
