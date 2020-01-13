@@ -14,9 +14,12 @@ import java.util.Map;
  * @author civeng   1.0版本   有改动请添加相关信息
  */
 public class GetClient {
+    /**
+     * 每个key都是String类型的MasterIp，对应一个Client对象
+     */
     private static Map<String,KubernetesClient> clientMap=new HashMap<>();
     /**
-     * 从Service Account中找到的token
+     * 从Service Account中找到的token  authentication
      */
     private static String token="eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3N" +
             "lcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3R" +
@@ -29,15 +32,17 @@ public class GetClient {
             "PgGcBqVxOdIHrHwvOJeu4QHjpxbo10j9m5-rNB5Xd8cuSeYzpu6ys8082ufyKGieykdmchY1Pkr_T0RIMnHE-giZvCmGd3Gq3axY3sew";
 
     /**
-     * 单例模式
+     * 静态工厂方法
      */
     public static KubernetesClient getClient(String masterIp){
         if(!clientMap.containsKey(masterIp)){
             synchronized (GetClient.class){
                 //跳create()
-                KubernetesClient client=createClient(masterIp);
-                clientMap.put(masterIp,client);
-                return client;
+                if(!clientMap.containsKey(masterIp)) {
+                    KubernetesClient client = createClient(masterIp);
+                    clientMap.put(masterIp, client);
+                    return client;
+                }
             }
         }
         return clientMap.get(masterIp);

@@ -22,8 +22,6 @@ class BaseHttpClientTest {
 
     }
 
-
-
     /**
      * 获取Prometheus中的数据   与GetPromData中的1.0版方法完全相同，这里保留作为副本。
      * 用fastjson包的JSONObject
