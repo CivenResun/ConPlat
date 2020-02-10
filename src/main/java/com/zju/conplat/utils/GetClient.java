@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 根据MasterIP创建与Kubernetes集群交互的Client
+ * 根据MasterIP创建与Kubernetes集群交互的Client   被utils里的GetNodeInfo调用
  * 待补充：默认方式创建，除了传入的参数MasterIP外还需要token（应该放在配置文件里？）
  * @author civeng   1.0版本   有改动请添加相关信息
  */

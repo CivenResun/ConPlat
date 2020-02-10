@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 通过Client-Java获取集群中节点信息   以nodeName为例，其他可获取的信息也很多
+ * 通过Client-Java获取集群中节点信息   以nodeName为例，其他可获取的信息也很多     调用GetClient里的方法
  * 待补充：默认方式创建，除了传入的参数MasterIP外还需要token（应该放在配置文件里？）
  * @author civeng 1.0版本 有改动请添加相关信息
  */

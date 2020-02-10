@@ -64,13 +64,22 @@
             <artifactId>kubernetes-client</artifactId>
             <version>4.3.0</version>
         </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/io.fabric8/kubernetes-model -->
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-model</artifactId>
             <version>4.3.0</version>
+        </dependency>
+        <!--        jpmml调用模型-->
+        <dependency>
+            <groupId>org.jpmml</groupId>
+            <artifactId>pmml-evaluator</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jpmml</groupId>
+            <artifactId>pmml-evaluator-extension</artifactId>
+            <version>1.4.1</version>
         </dependency>
     </dependencies>
 
