@@ -21,7 +21,7 @@ public class UserController {
     CallXgboost callXgboost;
 
     /**
-     * todo:指定HashMap大小
+     * TODO:指定HashMap大小
      */
     @RequestMapping("/cpu")
     @ResponseBody

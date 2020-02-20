@@ -66,7 +66,7 @@ public class CallModel {
     }
 
     /**
-     * 【输入】的参数放入Map中，【输出】预测结果的Map
+     * 【输入】的参数放入Map中，【输出】预测结果的Map               被service层调用
      * @param evaluator 评估器
      * @param paramData 参数
      * @return 结果map
