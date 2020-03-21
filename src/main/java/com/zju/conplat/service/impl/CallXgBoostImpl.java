@@ -1,6 +1,6 @@
 package com.zju.conplat.service.impl;
 
-import com.zju.conplat.service.CallXgboost;
+import com.zju.conplat.service.ICallXgBoost;
 import com.zju.conplat.utils.CallModel;
 import org.jpmml.evaluator.Evaluator;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author civeng
  */
 @Service
-public class CallXgboostImpl implements CallXgboost {
+public class CallXgBoostImpl implements ICallXgBoost {
 
     /**
      * @param paramMap 模型输入
