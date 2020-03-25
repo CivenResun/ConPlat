@@ -1,19 +1,15 @@
 package com.zju.conplat.bean;
 
-import java.io.Serializable;
-
 /**
- *Node节点的监控信息
+ * Pod监控信息
  * @author civeng
  */
-public class Node implements Serializable {
+public class Pod {
     private String cpuUsed;
     private String memUsed;
     private String cpuTotal;
     private String memTotal;
-    private String fsUsed;
-    private String fsTotal;
-
+    private String networkIO;
 
     public String getCpuUsed() {
         return cpuUsed;
@@ -47,19 +43,11 @@ public class Node implements Serializable {
         this.memTotal = memTotal;
     }
 
-    public String getFsUsed() {
-        return fsUsed;
+    public String getNetworkIO() {
+        return networkIO;
     }
 
-    public void setFsUsed(String fsUsed) {
-        this.fsUsed = fsUsed;
-    }
-
-    public String getFsTotal() {
-        return fsTotal;
-    }
-
-    public void setFsTotal(String fsTotal) {
-        this.fsTotal = fsTotal;
+    public void setNetworkIO(String networkIO) {
+        this.networkIO = networkIO;
     }
 }

@@ -32,12 +32,12 @@ public class GetClient {
             "PgGcBqVxOdIHrHwvOJeu4QHjpxbo10j9m5-rNB5Xd8cuSeYzpu6ys8082ufyKGieykdmchY1Pkr_T0RIMnHE-giZvCmGd3Gq3axY3sew";
 
     /**
-     * 静态工厂方法
+     * 获取k8s client实例对象  双重校验
      */
     public static KubernetesClient getClient(String masterIp){
         if(!clientMap.containsKey(masterIp)){
             synchronized (GetClient.class){
-                //跳create()
+                //在createClient()方法里配置 加入IP-Client字典
                 if(!clientMap.containsKey(masterIp)) {
                     KubernetesClient client = createClient(masterIp);
                     clientMap.put(masterIp, client);

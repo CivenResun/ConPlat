@@ -13,8 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率
- * 第四个方法调用机器学习模型，根据输入的参数预测Qos
+ * 前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率和使用量
+ * 第四个方法输入用户需要部署的Pod的资源
+ * 第五个方法调用机器学习模型，根据输入的参数预测Qos
  * @author civeng
  */
 @Controller
@@ -71,10 +72,10 @@ public class UserController {
 
     /**
      * 调用XgBoost模型，输出预测的Qos （从pmml文件里确定参数类型）
-     * @param x1 Api-server Cpu
-     * @param x2 Api-server Mem
-     * @param x3 Node_Num
-     * @param x4 pod_Num
+     * @param x1 Api-server_Num
+     * @param x2 Api-server_Cpu
+     * @param x3 Api-server_Mem
+     * @param x4 Node_Num
      * @return Qos(Response Time  RT)响应时间
      */
     @PostMapping("/Qos")
