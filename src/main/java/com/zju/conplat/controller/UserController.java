@@ -79,7 +79,8 @@ public class UserController {
     @RequestMapping(value="getVm",method={RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Object getVmDistribution(Map<String,String> map){
-
+        Map<String,String> ret=new HashMap<>();
+        return ret;
     }
 
     /**
