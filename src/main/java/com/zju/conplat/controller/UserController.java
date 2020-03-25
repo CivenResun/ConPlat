@@ -13,8 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率和使用量
- * 第四个方法输入用户需要部署的Pod的资源
+ * doc中的说明对应utils中的工具类
+ * 此Controller中前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率和使用量
+ * 第四个方法输入用户需要部署的Pod的资源，得到VM的分配结果（未完成）
  * 第五个方法调用机器学习模型，根据输入的参数预测Qos
  * @author civeng
  */
@@ -71,6 +72,17 @@ public class UserController {
     }
 
     /**
+     * TODO: 未完成
+     * @param map Pod的资源消耗map
+     * @return 分配的VM规格和数量
+     */
+    @RequestMapping(value="getVm",method={RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public Object getVmDistribution(Map<String,String> map){
+
+    }
+
+    /**
      * 调用XgBoost模型，输出预测的Qos （从pmml文件里确定参数类型）
      * @param x1 Api-server_Num
      * @param x2 Api-server_Cpu
@@ -93,22 +105,6 @@ public class UserController {
         return qos.toString();
     }
 
-    /**
-     * 测试方法，没有意义
-     */
-    @RequestMapping("/testJSON")
-    @ResponseBody
-    public String testJson(){
-        BaseHttpClient baseHttpClient=new BaseHttpClient();
-        JSONObject obj= baseHttpClient.getJSON();
-        String conVer=obj.toString();
-        try {
-            JSONObject objTmp=new JSONObject(conVer);
-            System.out.println(objTmp.getJSONArray("value"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return obj.toString();
-    }
+
 
 }
