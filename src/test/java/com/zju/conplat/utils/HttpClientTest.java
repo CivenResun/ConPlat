@@ -10,13 +10,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.URISyntaxException;
 
-class BaseHttpClientTest {
-    BaseHttpClient baseHttpClient=new BaseHttpClient();
+class HttpClientTest {
+    HttpClient httpClient =new HttpClient();
 
     void NodeInfo(){
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * use PMML call XGBOOST   被service层的Call Xgboost调用
+ * use PMML call XgBoost   被service层的Call XgBoost调用
  * @author civeng
  */
 public class CallModel {

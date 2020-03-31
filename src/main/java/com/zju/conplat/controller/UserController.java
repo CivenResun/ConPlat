@@ -2,9 +2,6 @@ package com.zju.conplat.controller;
 
 import com.zju.conplat.service.ICallXgBoost;
 import com.zju.conplat.service.IGetFromProm;
-import com.zju.conplat.utils.BaseHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +12,7 @@ import java.util.Map;
 /**
  * doc中的说明对应utils中的工具类
  * 此Controller中前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率和使用量
- * 第四个方法输入用户需要部署的Pod的资源，得到VM的分配结果（未完成）
+ * 第四个方法输入用户需要部署的Pod的资源，得到VM的分配结果（还需要进一步考虑）
  * 第五个方法调用机器学习模型，根据输入的参数预测Qos
  * @author civeng
  */
@@ -27,7 +24,7 @@ public class UserController {
     IGetFromProm getFromProm;
 
     /**
-     * 根据nodeName得到此节点的Cpu在过去1分钟内的利用率
+     * 根据nodeName得到此节点的Cpu在过去1分钟内的利用率（当前集群状态）
      */
     @RequestMapping(value="/getCpu",method={RequestMethod.GET})
     @ResponseBody
@@ -47,7 +44,7 @@ public class UserController {
     @RequestMapping(value="/getMem",method={RequestMethod.GET})
     @ResponseBody
     public String getMem(@RequestParam("nodeName") String nodeName){
-        String query="sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^$"+nodeName+"$\"}) / sum" +
+        String query="sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) / sum" +
                 " (machine_memory_bytes{kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
         String ret=getFromProm.getInfoFromProm(query);
         if(ret==null){
@@ -72,7 +69,7 @@ public class UserController {
     }
 
     /**
-     * TODO: 未完成
+     * TODO: 待考虑
      * @param map Pod的资源消耗map
      * @return 分配的VM规格和数量
      */

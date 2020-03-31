@@ -3,17 +3,12 @@ package com.zju.conplat.utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import sun.reflect.generics.tree.Tree;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 /**
  * http测试基类     用于测试，请忽略
  * @author civeng
  */
-public class BaseHttpClient {
+public class HttpClient {
 
     /**
      * 原生方法构建JSON
