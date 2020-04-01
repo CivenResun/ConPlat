@@ -20,9 +20,10 @@ import java.util.Map;
 
 /**
  * doc中的说明对应utils中的工具类
- * 此Controller中前三个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率和使用量
- * 第四个方法输入用户需要部署的Pod的资源，得到VM的分配结果（还需要进一步考虑）
- * 第五个方法调用机器学习模型，根据输入的参数预测Qos
+ * 此Controller中前两个方法周期性地返回监控数据
+ * 第3~5个方法获取集群监控信息，根据传入的节点名称nodeName查询对应的Cpu,Mem,FileSystem利用率
+ * 第6个方法输入用户需要部署的Pod的资源，得到VM的分配结果（还需要进一步考虑）
+ * 第7个方法调用机器学习模型，根据输入的参数预测Qos
  * @author civeng
  */
 @Slf4j
