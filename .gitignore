@@ -29,4 +29,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/java/com/zju/conplat/config/
+/src/main/java/com/zju/conplat/config/ThreadPoolConfig.java

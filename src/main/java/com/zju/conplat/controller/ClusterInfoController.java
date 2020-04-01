@@ -11,17 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 通过fabric8获取集群中node，service，pod的列表
  * ResponseBody+Controller 因为前后端分离，所以只返回Json格式数据
  * @author civeng
  */
 @RestController
+@RequestMapping("/watch")
 public class ClusterInfoController {
     private String clusterIp="193.112.155.109";
 
     /**
      * 用于获得集群中node的名称，以获取后续每个node上的资源使用情况信息
      */
-    @RequestMapping(value="/watch/node",method = {RequestMethod.GET})
+    @RequestMapping(value="/node",method = {RequestMethod.GET})
     public List getNode(@RequestParam(value="masterIp",defaultValue = "193.112.155.109") String masterIp){
         List<String> ret=new ArrayList<>();
         NodeList nodeList= GetClient.getClient(masterIp).nodes().list();
@@ -34,7 +36,7 @@ public class ClusterInfoController {
     /**
      * 获取集群中各个service的名称,默认不传入namespace这个参数（即获取所有命名空间的service）
      */
-    @RequestMapping(value="/watch/service",method = {RequestMethod.GET})
+    @RequestMapping(value="/service",method = {RequestMethod.GET})
     public List getService(@RequestParam(value="nameSpace",defaultValue = "all")String nameSpace){
         List<String> ret=new ArrayList<>();
         ServiceList svcList = GetClient.getClient(clusterIp).services().list();
@@ -56,7 +58,7 @@ public class ClusterInfoController {
     /**
      * 获取集群中各个pod的名称，默认所有
      */
-    @RequestMapping(value="/watch/pod",method = {RequestMethod.GET})
+    @RequestMapping(value="/pod",method = {RequestMethod.GET})
     public List getServicePod(@RequestParam(value="nameSpace",defaultValue = "all")String nameSpace){
         List<String> ret=new ArrayList<>();
         PodList podList = GetClient.getClient(clusterIp).pods().list();

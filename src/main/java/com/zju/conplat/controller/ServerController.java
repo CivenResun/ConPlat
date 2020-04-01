@@ -1,11 +1,20 @@
 package com.zju.conplat.controller;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zju.conplat.common.WebSocketConsts;
 import com.zju.conplat.service.ICallXgBoost;
 import com.zju.conplat.service.IGetFromProm;
+import com.zju.conplat.vo.Server;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +25,81 @@ import java.util.Map;
  * 第五个方法调用机器学习模型，根据输入的参数预测Qos
  * @author civeng
  */
-@Controller
-public class UserController {
+@Slf4j
+@RestController
+@RequestMapping("/server")
+public class ServerController {
+
     @Resource
     ICallXgBoost callXgBoost;
     @Resource
     IGetFromProm getFromProm;
+    @Resource
+    private SimpMessagingTemplate messagingTemplate;
+
+
+    @GetMapping(value = "/getDetail")
+    @ResponseBody
+    public Server getDetail(){
+        String nodeName="centos7";
+
+        String cpuQuery="sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}[15s])) / " +
+                "sum (machine_cpu_cores{kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+        String memQuery="sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) / sum" +
+                " (machine_memory_bytes{kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+        String diskQuery="sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) / " +
+                "sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+
+        String cpu=getFromProm.getInfoFromProm(cpuQuery);
+        String mem=getFromProm.getInfoFromProm(memQuery);
+        String disk=getFromProm.getInfoFromProm(diskQuery);
+
+
+        Server server=new Server();
+        server.setCpu(cpu);
+        server.setMem(mem);
+        server.setDisk(disk);
+
+        server.setDateTime(DateTime.now());
+
+        return server;
+    }
+
+    /**
+     * 按照标准时间来算，每隔 60s 执行一次
+     */
+    @Scheduled(cron = "0/15 * * * * ?")
+    public void websocket() throws Exception {
+        log.info("【推送消息】开始执行：{}", DateUtil.formatDateTime(new Date()));
+        // 查询服务器状态
+        String nodeName="centos7";
+
+        String cpuQuery="sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}[15s])) / " +
+                "sum (machine_cpu_cores{kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+        String memQuery="sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) / sum" +
+                " (machine_memory_bytes{kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+        String diskQuery="sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) / " +
+                "sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^"+nodeName+"\"}) * 100";
+
+        String cpu=getFromProm.getInfoFromProm(cpuQuery);
+        String mem=getFromProm.getInfoFromProm(memQuery);
+        String disk=getFromProm.getInfoFromProm(diskQuery);
+
+
+        Server server=new Server();
+        server.setCpu(cpu);
+        server.setMem(mem);
+        server.setDisk(disk);
+
+        server.setDateTime(DateTime.now());
+
+        ObjectMapper mapper=new ObjectMapper();
+        String serverInfo=mapper.writeValueAsString(server);
+
+        messagingTemplate.convertAndSend(WebSocketConsts.PUSH_SERVER,server);
+        log.info("【推送消息】执行结束：{}", DateUtil.formatDateTime(new Date()));
+
+    }
 
     /**
      * 根据nodeName得到此节点的Cpu在过去1分钟内的利用率（当前集群状态）
